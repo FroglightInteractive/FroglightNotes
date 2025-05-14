@@ -58,12 +58,7 @@ func _load_notes(filter: String = "") -> void:
 				var file_title = data.get("title", "")
 				var content = data.get("content", "")
 				
-				# create button for note in sidebar
-				#var file_button = Button.new()
-				#file_button.text = file_title
-				#file_button.focus_mode = Control.FOCUS_NONE
-				#file_button.pressed.connect(_open_note.bind(file_path))
-				#notes_container.add_child(file_button)
+				# create button for note in sidebar (allows searching)
 				if filter == "" or file_title.to_lower().find(filter.to_lower()) != -1 or content.to_lower().find(filter.to_lower()) != -1:
 					var file_button = Button.new()
 					file_button.text = file_title
