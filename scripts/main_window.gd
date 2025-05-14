@@ -7,6 +7,7 @@ extends Control
 @onready var new_note: Button = $VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer/NewNote
 @onready var notes_title: LineEdit = $VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer/NotesTitle
 @onready var date_created_label: Label = $VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer/Panel/DateCreatedLabel
+@onready var seach_notes: LineEdit = $VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/SeachNotes
 
 # directory where notes will be saved to/loaded from
 const NOTES_DIR: String = "user://notes/"
@@ -30,11 +31,14 @@ func _ready() -> void:
 	save_note.pressed.connect(_save_current_note)
 	new_note.pressed.connect(_create_note)
 	
+	# connect other signals
+	seach_notes.text_changed.connect(_on_search_text_changed)
+	
 	# load all notes into sidebar
 	_load_notes()
 
 
-func _load_notes() -> void:
+func _load_notes(filter: String = "") -> void:
 	# reset sidebar
 	for child in notes_container.get_children():
 		child.queue_free()
@@ -52,13 +56,20 @@ func _load_notes() -> void:
 				var file = FileAccess.open(file_path, FileAccess.READ)
 				var data = JSON.parse_string(file.get_as_text())
 				var file_title = data.get("title", "")
+				var content = data.get("content", "")
 				
 				# create button for note in sidebar
-				var file_button = Button.new()
-				file_button.text = file_title
-				file_button.focus_mode = Control.FOCUS_NONE
-				file_button.pressed.connect(_open_note.bind(file_path))
-				notes_container.add_child(file_button)
+				#var file_button = Button.new()
+				#file_button.text = file_title
+				#file_button.focus_mode = Control.FOCUS_NONE
+				#file_button.pressed.connect(_open_note.bind(file_path))
+				#notes_container.add_child(file_button)
+				if filter == "" or file_title.to_lower().find(filter.to_lower()) != -1 or content.to_lower().find(filter.to_lower()) != -1:
+					var file_button = Button.new()
+					file_button.text = file_title
+					file_button.focus_mode = Control.FOCUS_NONE
+					file_button.pressed.connect(_open_note.bind(file_path))
+					notes_container.add_child(file_button)
 				
 			file_name = dir.get_next()
 		dir.list_dir_end()
@@ -125,3 +136,7 @@ func _create_note() -> void:
 	current_note_path = ""
 	notes_title.text = "Untitled"
 	notes_editor.text = ""
+
+
+func _on_search_text_changed(new_text: String) -> void:
+	_load_notes(new_text)
