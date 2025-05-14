@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://d4jwm4nfj8skh"]
+[gd_scene load_steps=4 format=3 uid="uid://d4jwm4nfj8skh"]
 
 [ext_resource type="Script" uid="uid://cig7iccmnmjio" path="res://scripts/main_window.gd" id="1_ac7cv"]
+[ext_resource type="FontFile" uid="uid://byypkayusmc3f" path="res://assets/fonts/bahnschrift.ttf" id="2_52e18"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_p671h"]
+font = ExtResource("2_52e18")
 font_size = 24
 
 [node name="MainWindow" type="Control"]
@@ -63,6 +65,8 @@ horizontal_alignment = 1
 
 [node name="SeachNotes" type="LineEdit" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_52e18")
+theme_override_font_sizes/font_size = 18
 placeholder_text = "Search notes"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
@@ -87,6 +91,8 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
+theme_override_fonts/font = ExtResource("2_52e18")
+theme_override_font_sizes/font_size = 18
 text = "📝 New Note"
 expand_icon = true
 
@@ -94,6 +100,8 @@ expand_icon = true
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
+theme_override_fonts/font = ExtResource("2_52e18")
+theme_override_font_sizes/font_size = 18
 text = "💾 Save Note"
 expand_icon = true
 
@@ -107,8 +115,12 @@ layout_mode = 2
 [node name="NotesTitle" type="LineEdit" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_52e18")
+theme_override_font_sizes/font_size = 18
 placeholder_text = "Note Title"
 
-[node name="NotesEditor" type="TextEdit" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer"]
+[node name="NotesEditor" type="TextEdit" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer" groups=["editor"]]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_52e18")
+theme_override_font_sizes/font_size = 18

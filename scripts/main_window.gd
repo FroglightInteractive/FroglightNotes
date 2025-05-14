@@ -65,6 +65,7 @@ func _load_notes(filter: String = "") -> void:
 					file_button.focus_mode = Control.FOCUS_NONE
 					file_button.pressed.connect(_open_note.bind(file_path))
 					notes_container.add_child(file_button)
+					file_button.add_theme_font_override("font", preload("res://assets/fonts/bahnschrift.ttf"))
 				
 			file_name = dir.get_next()
 		dir.list_dir_end()
@@ -81,7 +82,6 @@ func _open_note(note_path: String) -> void:
 	
 	var title: String = data.get("title", "")
 	var content: String = data.get("content", "")
-	var edited_at: String = data.get("edited_at", "").replace("T", " | ")
 	
 	# insert data from file into editor
 	notes_title.text = title
