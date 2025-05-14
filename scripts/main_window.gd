@@ -47,16 +47,16 @@ func _load_notes(filter: String = "") -> void:
 	var dir = DirAccess.open(NOTES_DIR)
 	if dir:
 		dir.list_dir_begin()
-		var file_name = dir.get_next()
+		var file_name: String = dir.get_next()
 		while file_name != "":
 			if not dir.current_is_dir() and file_name.ends_with(".json"):
-				var file_path = NOTES_DIR + file_name
+				var file_path: String = NOTES_DIR + file_name
 				
 				# extract note title from save file
 				var file = FileAccess.open(file_path, FileAccess.READ)
-				var data = JSON.parse_string(file.get_as_text())
-				var file_title = data.get("title", "")
-				var content = data.get("content", "")
+				var data: Dictionary = JSON.parse_string(file.get_as_text())
+				var file_title: String = data.get("title", "")
+				var content: String = data.get("content", "")
 				
 				# create button for note in sidebar (allows searching)
 				if filter == "" or file_title.to_lower().find(filter.to_lower()) != -1 or content.to_lower().find(filter.to_lower()) != -1:
@@ -77,11 +77,11 @@ func _open_note(note_path: String) -> void:
 	
 	# get data from note file
 	var file = FileAccess.open(note_path, FileAccess.READ)
-	var data = JSON.parse_string(file.get_as_text())
+	var data: Dictionary = JSON.parse_string(file.get_as_text())
 	
-	var title = data.get("title", "")
-	var content = data.get("content", "")
-	var edited_at = data.get("edited_at", "").replace("T", " | ")
+	var title: String = data.get("title", "")
+	var content: String = data.get("content", "")
+	var edited_at: String = data.get("edited_at", "").replace("T", " | ")
 	
 	# insert data from file into editor
 	notes_title.text = title
