@@ -25,19 +25,33 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.160784, 0.160784, 0.215686, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="DeleteNoteConfirm" type="ConfirmationDialog" parent="."]
+initial_position = 2
+size = Vector2i(263, 100)
+unresizable = true
+always_on_top = true
+ok_button_text = "Delete"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
 
-[node name="MainUI" type="Control" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="MainUI" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/MainUI"]
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,11 +59,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="NoteList" type="Panel" parent="VBoxContainer/MainUI/HSplitContainer"]
+[node name="NoteList" type="Panel" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MainUI/HSplitContainer/NoteList"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,70 +71,74 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
 layout_mode = 2
 text = "NOTES"
 label_settings = SubResource("LabelSettings_p671h")
 horizontal_alignment = 1
 
-[node name="SeachNotes" type="LineEdit" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
+[node name="SearchNotes" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
 layout_mode = 2
+tooltip_text = "Search through notes"
 theme_override_fonts/font = ExtResource("2_52e18")
 theme_override_font_sizes/font_size = 18
 placeholder_text = "Search notes"
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="NotesContainer" type="VBoxContainer" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/ScrollContainer"]
+[node name="NotesContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="NewNote" type="Button" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer"]
+[node name="NewNote" type="Button" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Create a new note"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("2_52e18")
 theme_override_font_sizes/font_size = 18
 text = "📝 New Note"
 expand_icon = true
 
-[node name="SaveNote" type="Button" parent="VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer"]
+[node name="DeleteNote" type="Button" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Delete the current note"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("2_52e18")
 theme_override_font_sizes/font_size = 18
-text = "💾 Save Note"
-expand_icon = true
+text = "Delete Note"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MainUI/HSplitContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="NotesTitle" type="LineEdit" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer"]
+[node name="NotesTitle" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("2_52e18")
 theme_override_font_sizes/font_size = 18
 placeholder_text = "Note Title"
 
-[node name="NotesEditor" type="TextEdit" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer" groups=["editor"]]
+[node name="NotesEditor" type="TextEdit" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/VBoxContainer" groups=["editor"]]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_52e18")
 theme_override_font_sizes/font_size = 18
+
+[connection signal="confirmed" from="DeleteNoteConfirm" to="." method="_delete_current_note"]

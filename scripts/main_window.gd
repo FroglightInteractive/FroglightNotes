@@ -1,12 +1,13 @@
 extends Control
 
 # node declarations
-@onready var notes_container: VBoxContainer = $VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/ScrollContainer/NotesContainer
-@onready var notes_editor: TextEdit = $VBoxContainer/MainUI/HSplitContainer/VBoxContainer/NotesEditor
-@onready var save_note: Button = $VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer/SaveNote
-@onready var new_note: Button = $VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer/NewNote
-@onready var notes_title: LineEdit = $VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer/NotesTitle
-@onready var seach_notes: LineEdit = $VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/SeachNotes
+@onready var search_notes: LineEdit = $MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/SearchNotes
+@onready var notes_container: VBoxContainer = $MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/ScrollContainer/NotesContainer
+@onready var new_note: Button = $MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer/NewNote
+@onready var delete_note: Button = $MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer/DeleteNote
+@onready var notes_title: LineEdit = $MarginContainer/VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer/NotesTitle
+@onready var notes_editor: TextEdit = $MarginContainer/VBoxContainer/MainUI/HSplitContainer/VBoxContainer/NotesEditor
+@onready var delete_note_confirm: ConfirmationDialog = $DeleteNoteConfirm
 
 # directory where notes will be saved to/loaded from
 const NOTES_DIR: String = "user://notes/"
@@ -19,7 +20,7 @@ func _ready() -> void:
 	# automatically refresh notes list every 5 seconds
 	var _refresh_timer := Timer.new()
 	_refresh_timer.wait_time = 5.0
-	_refresh_timer.timeout.connect(_load_notes)
+	_refresh_timer.timeout.connect(_on_refresh_timer_timeout)
 	add_child(_refresh_timer)
 	_refresh_timer.start()
 	
@@ -27,11 +28,14 @@ func _ready() -> void:
 	DirAccess.make_dir_absolute(NOTES_DIR)
 	
 	# connect button signales
-	save_note.pressed.connect(_save_current_note)
 	new_note.pressed.connect(_create_note)
+	delete_note.pressed.connect(func():
+		delete_note_confirm.popup()
+		delete_note_confirm.dialog_text = "Are you sure you want to delete:\n" + current_note_path
+	)
 	
 	# connect other signals
-	seach_notes.text_changed.connect(_on_search_text_changed)
+	search_notes.text_changed.connect(_on_search_text_changed)
 	notes_editor.text_changed.connect(_on_editor_text_changed)
 	
 	# load all notes into sidebar
@@ -54,8 +58,11 @@ func _load_notes(filter: String = "") -> void:
 				
 				# extract note title from save file
 				var file = FileAccess.open(file_path, FileAccess.READ)
+				
 				var data: Dictionary = JSON.parse_string(file.get_as_text())
-				var file_title: String = data.get("title", "")
+				if not data:
+					continue
+				var file_title: String = data.get("title", "Untitled")
 				var content: String = data.get("content", "")
 				
 				# create button for note in sidebar (allows searching)
@@ -80,7 +87,7 @@ func _open_note(note_path: String) -> void:
 	var file = FileAccess.open(note_path, FileAccess.READ)
 	var data: Dictionary = JSON.parse_string(file.get_as_text())
 	
-	var title: String = data.get("title", "")
+	var title: String = data.get("title", "Untitled")
 	var content: String = data.get("content", "")
 	
 	# insert data from file into editor
@@ -124,6 +131,13 @@ func _save_current_note() -> void:
 		push_error("Failed to save note to: " + file_name)
 
 
+func _delete_current_note() -> void:
+	var dir = DirAccess.open(NOTES_DIR)
+	dir.remove(current_note_path)
+	_create_note()
+	_load_notes(search_notes.text)
+
+
 func _create_note() -> void:
 	# reset editor
 	current_note_path = ""
@@ -137,3 +151,7 @@ func _on_search_text_changed(new_text: String) -> void:
 
 func _on_editor_text_changed() -> void:
 	_save_current_note()
+
+
+func _on_refresh_timer_timeout() -> void:
+	_load_notes(search_notes.text)
