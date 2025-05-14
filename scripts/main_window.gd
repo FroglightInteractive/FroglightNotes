@@ -13,6 +13,14 @@ const NOTES_DIR: String = "user://notes/"
 # path of the currently open note
 var current_note_path: String = ""
 
+# list of allowed characters in file name
+var allowed_characters: Array = [
+	"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+	"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+	"1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
+	".", "_", "-", " ", "(", ")", ",",
+]
+
 
 func _ready() -> void:
 	# automatically refresh notes list every 5 seconds
@@ -94,7 +102,11 @@ func _save_current_note() -> void:
 	
 	if current_note_path == "":
 		# create new note
-		var safe_title = title.replace(" ", "_")
+		var safe_title: String = title
+		for character in title:
+			if not allowed_characters.has(character):
+				safe_title = title.replace(character, "")
+		#var safe_title = title.replace(" ", "_")
 		var timestamp = str(Time.get_unix_time_from_system())
 		file_name = NOTES_DIR + safe_title + "_" + timestamp + ".json"
 	else:
