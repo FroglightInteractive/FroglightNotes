@@ -101,9 +101,28 @@ expand_icon = true
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="NotesTitle" type="LineEdit" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="NotesTitle" type="LineEdit" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 placeholder_text = "Note Title"
+
+[node name="Panel" type="Panel" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DateCreatedLabel" type="Label" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="NotesEditor" type="TextEdit" parent="VBoxContainer/MainUI/HSplitContainer/VBoxContainer"]
 layout_mode = 2

@@ -2,10 +2,11 @@ extends Control
 
 # node declarations
 @onready var notes_container: VBoxContainer = $VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/ScrollContainer/NotesContainer
-@onready var notes_title: LineEdit = $VBoxContainer/MainUI/HSplitContainer/VBoxContainer/NotesTitle
 @onready var notes_editor: TextEdit = $VBoxContainer/MainUI/HSplitContainer/VBoxContainer/NotesEditor
 @onready var save_note: Button = $VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer/SaveNote
 @onready var new_note: Button = $VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/GridContainer/NewNote
+@onready var notes_title: LineEdit = $VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer/NotesTitle
+@onready var date_created_label: Label = $VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer/Panel/DateCreatedLabel
 
 # directory where notes will be saved to/loaded from
 const NOTES_DIR: String = "user://notes/"
@@ -74,10 +75,12 @@ func _open_note(note_path: String) -> void:
 	
 	var title = data.get("title", "")
 	var content = data.get("content", "")
+	var edited_at = data.get("edited_at", "").replace("T", " | ")
 	
 	# insert data from file into editor
 	notes_title.text = title
 	notes_editor.text = content
+	date_created_label.text = "Last Edited At: " + edited_at
 
 
 func _save_current_note() -> void:
@@ -100,7 +103,7 @@ func _save_current_note() -> void:
 	var data = {
 		"title": title,
 		"content": notes_editor.text,
-		"created_at": Time.get_datetime_string_from_system()
+		"edited_at": Time.get_datetime_string_from_system()
 	}
 	
 	# save data to file
@@ -112,6 +115,7 @@ func _save_current_note() -> void:
 		
 		current_note_path = file_name
 		_load_notes()
+		date_created_label.text = "Last Edited At: " + data.get("edited_at", "").replace("T", " | ")
 	else:
 		push_error("Failed to save note to: " + file_name)
 
