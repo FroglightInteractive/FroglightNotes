@@ -105,10 +105,9 @@ func _save_current_note() -> void:
 		var safe_title: String = title
 		for character in title:
 			if not allowed_characters.has(character):
-				safe_title = title.replace(character, "")
-		#var safe_title = title.replace(" ", "_")
+				safe_title = safe_title.replace(character, "")
 		var timestamp = str(Time.get_unix_time_from_system())
-		file_name = NOTES_DIR + safe_title + "_" + timestamp + ".json"
+		file_name = NOTES_DIR + safe_title.strip_edges() + "_" + timestamp + ".json"
 	else:
 		# overwrite existing note
 		file_name = current_note_path
