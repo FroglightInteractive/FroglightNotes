@@ -33,6 +33,7 @@ func _ready() -> void:
 	
 	# connect other signals
 	seach_notes.text_changed.connect(_on_search_text_changed)
+	notes_editor.text_changed.connect(_on_editor_text_changed)
 	
 	# load all notes into sidebar
 	_load_notes()
@@ -135,3 +136,7 @@ func _create_note() -> void:
 
 func _on_search_text_changed(new_text: String) -> void:
 	_load_notes(new_text)
+
+
+func _on_editor_text_changed() -> void:
+	_save_current_note()
