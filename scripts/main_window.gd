@@ -13,14 +13,6 @@ const NOTES_DIR: String = "user://notes/"
 # path of the currently open note
 var current_note_path: String = ""
 
-# list of allowed characters in file name
-var allowed_characters: Array = [
-	"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-	"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-	"1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
-	".", "_", "-", " ", "(", ")", ",",
-]
-
 
 func _ready() -> void:
 	# automatically refresh notes list every 5 seconds
@@ -55,18 +47,14 @@ func _load_notes() -> void:
 			if not dir.current_is_dir() and file_name.ends_with(".json"):
 				var file_path = NOTES_DIR + file_name
 				
-				# remove .json from sidebar
-				var base_name = file_name.replace(".json", "")
-				
-				# remove timestamp from sidebar
-				var parts = base_name.split("_")
-				if parts.size() > 1:
-					parts.remove_at(parts.size() - 1)
-					base_name = "_".join(parts)
+				# extract note title from save file
+				var file = FileAccess.open(file_path, FileAccess.READ)
+				var data = JSON.parse_string(file.get_as_text())
+				var file_title = data.get("title", "")
 				
 				# create button for note in sidebar
 				var file_button = Button.new()
-				file_button.text = base_name
+				file_button.text = file_title
 				file_button.focus_mode = Control.FOCUS_NONE
 				file_button.pressed.connect(_open_note.bind(file_path))
 				notes_container.add_child(file_button)
@@ -102,12 +90,8 @@ func _save_current_note() -> void:
 	
 	if current_note_path == "":
 		# create new note
-		var safe_title: String = title
-		for character in title:
-			if not allowed_characters.has(character):
-				safe_title = safe_title.replace(character, "")
 		var timestamp = str(Time.get_unix_time_from_system())
-		file_name = NOTES_DIR + safe_title.strip_edges() + "_" + timestamp + ".json"
+		file_name = NOTES_DIR + "_" + timestamp + ".json"
 	else:
 		# overwrite existing note
 		file_name = current_note_path
