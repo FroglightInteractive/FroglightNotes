@@ -14,8 +14,8 @@ A crossplatform notes app made in the Godot game engine
 - Double-click executable
 
 ### MacOS
-- Right click game file
-- Click open
+- Right click app file
+- Click open an accept
 - From now on, you can just double click
 
 ## Authors
