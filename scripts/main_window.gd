@@ -18,9 +18,9 @@ var current_note_path: String = ""
 
 
 func _ready() -> void:
-	# automatically refresh notes list every 5 seconds
+	# automatically refresh notes list
 	var _refresh_timer := Timer.new()
-	_refresh_timer.wait_time = 5.0
+	_refresh_timer.wait_time = 2.0
 	_refresh_timer.timeout.connect(_on_refresh_timer_timeout)
 	add_child(_refresh_timer)
 	_refresh_timer.start()
@@ -66,8 +66,22 @@ func _load_notes(filter: String = "") -> void:
 				var file_title: String = data.get("title", "Untitled")
 				var content: String = data.get("content", "")
 				
-				# create button for note in sidebar (allows searching)
-				if filter == "" or file_title.to_lower().find(filter.to_lower()) != -1 or content.to_lower().find(filter.to_lower()) != -1:
+				# create button for note in sidebar (allows searching with tag and without)
+				var filter_lower = filter.to_lower()
+				var matches_filter := false
+				if filter == "":
+					matches_filter = true
+				elif filter.begins_with("#"):
+					var tag_filter = filter.substr(1)
+					for tag in data.get("tags", []):
+						if tag.to_lower().find(tag_filter) != -1:
+							matches_filter = true
+							break
+				else:
+					if file_title.to_lower().find(filter_lower) != -1 or content.to_lower().find(filter_lower) != -1:
+						matches_filter = true
+				
+				if matches_filter:
 					var file_button = Button.new()
 					file_button.text = file_title
 					file_button.focus_mode = Control.FOCUS_NONE
