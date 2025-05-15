@@ -8,6 +8,7 @@ extends Control
 @onready var notes_title: LineEdit = $MarginContainer/VBoxContainer/MainUI/HSplitContainer/VBoxContainer/HBoxContainer/NotesTitle
 @onready var notes_editor: TextEdit = $MarginContainer/VBoxContainer/MainUI/HSplitContainer/VBoxContainer/NotesEditor
 @onready var delete_note_confirm: ConfirmationDialog = $DeleteNoteConfirm
+@onready var tag_bar: Panel = $MarginContainer/VBoxContainer/BottomBar/TagBar
 
 # directory where notes will be saved to/loaded from
 const NOTES_DIR: String = "user://notes/"
@@ -89,10 +90,18 @@ func _open_note(note_path: String) -> void:
 	
 	var title: String = data.get("title", "Untitled")
 	var content: String = data.get("content", "")
+	var tags = data.get("tags", [])
 	
 	# insert data from file into editor
 	notes_title.text = title
 	notes_editor.text = content
+	
+	# update tag bar
+	tag_bar.current_note_tags.clear()
+	for tag in tags:
+		if not tag_bar.current_note_tags.has(tag):
+			tag_bar.current_note_tags.append(tag)
+	tag_bar._refresh_tags()
 
 
 func _save_current_note() -> void:
@@ -115,7 +124,8 @@ func _save_current_note() -> void:
 	var data = {
 		"title": title,
 		"content": notes_editor.text,
-		"edited_at": Time.get_datetime_string_from_system()
+		"edited_at": Time.get_datetime_string_from_system(),
+		"tags": tag_bar.current_note_tags
 	}
 	
 	# save data to file
@@ -143,6 +153,8 @@ func _create_note() -> void:
 	current_note_path = ""
 	notes_title.text = "Untitled"
 	notes_editor.text = ""
+	tag_bar.current_note_tags.clear()
+	tag_bar._refresh_tags()
 
 
 func _on_search_text_changed(new_text: String) -> void:

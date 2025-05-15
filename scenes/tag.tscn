@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqn4gst42bex5"]
+
+[ext_resource type="Script" uid="uid://bcnfqp5t6fqqt" path="res://scripts/tag.gd" id="1_r78br"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r78br"]
+bg_color = Color(0.0992318, 0.0992318, 0.0992317, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="Label" type="Label"]
+custom_minimum_size = Vector2(75, 0)
+offset_right = 1.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+script = ExtResource("1_r78br")
+
+[node name="Tag" type="Panel" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r78br")
