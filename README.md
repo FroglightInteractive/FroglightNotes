@@ -10,9 +10,14 @@ A crossplatform notes app made in the Godot game engine
 - searching by note title, content or tags
 ## Installation
 
-1. currently to run (install) you need to have the [Godot Engine](https://godotengine.org/)
-2. clone project and open in godot
-    
+### Windows
+- Double-click executable
+
+### MacOS
+- Right click game file
+- Click open
+- From now on, you can just double click
+
 ## Authors
 
 - [FroglightInteractive](https://www.github.com/froglightinteractive)
