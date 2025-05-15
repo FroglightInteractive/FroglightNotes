@@ -14,6 +14,7 @@ config/name="NotesApp2.0"
 run/main_scene="uid://d4jwm4nfj8skh"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/show_image=false
+config/icon="uid://coqrx58m2umie"
 
 [rendering]
 
