@@ -149,7 +149,7 @@ theme_override_fonts/font = ExtResource("2_52e18")
 theme_override_font_sizes/font_size = 18
 placeholder_text = "Note Title"
 
-[node name="NotesEditor" type="TextEdit" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/VBoxContainer" groups=["editor"]]
+[node name="NotesEditor" type="TextEdit" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_52e18")
