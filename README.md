@@ -18,4 +18,5 @@ A crossplatform notes app made in the Godot game engine
 - [FroglightInteractive](https://www.github.com/froglightinteractive)
 
 ## Credits
+[logo]: https://github.com/FroglightInteractive/FroglightNotes/raw/master/assets/icons/writing.png "App Icon"
 [Icon](https://www.flaticon.com/free-icons/document)
