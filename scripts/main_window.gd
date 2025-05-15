@@ -1,3 +1,4 @@
+# TODO: linking notes
 extends Control
 
 # node declarations
