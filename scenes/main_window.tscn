@@ -181,12 +181,16 @@ columns = 2
 [node name="TagsLine" type="LineEdit" parent="MarginContainer/VBoxContainer/BottomBar/TagBar/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_52e18")
+theme_override_font_sizes/font_size = 18
 placeholder_text = "Enter tag name"
 
 [node name="AddTagButton" type="Button" parent="MarginContainer/VBoxContainer/BottomBar/TagBar/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 focus_mode = 0
+theme_override_fonts/font = ExtResource("2_52e18")
+theme_override_font_sizes/font_size = 18
 text = "Add Tag"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/BottomBar/TagBar/VBoxContainer"]
