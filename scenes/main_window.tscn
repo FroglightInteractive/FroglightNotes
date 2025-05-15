@@ -80,8 +80,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer"]
 layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/MainUI/HSplitContainer/NoteList/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "NOTES"
 label_settings = SubResource("LabelSettings_p671h")
 horizontal_alignment = 1
