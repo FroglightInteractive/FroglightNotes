@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4jwm4nfj8skh"]
+[gd_scene load_steps=7 format=3 uid="uid://d4jwm4nfj8skh"]
 
 [ext_resource type="Script" uid="uid://cig7iccmnmjio" path="res://scripts/main_window.gd" id="1_ac7cv"]
 [ext_resource type="FontFile" uid="uid://byypkayusmc3f" path="res://assets/fonts/bahnschrift.ttf" id="2_52e18"]
@@ -7,6 +7,14 @@
 [sub_resource type="LabelSettings" id="LabelSettings_p671h"]
 font = ExtResource("2_52e18")
 font_size = 24
+
+[sub_resource type="InputEventKey" id="InputEventKey_lp381"]
+device = -1
+ctrl_pressed = true
+keycode = 78
+
+[sub_resource type="Shortcut" id="Shortcut_ax7xg"]
+events = [SubResource("InputEventKey_lp381")]
 
 [node name="MainWindow" type="Control"]
 layout_mode = 3
@@ -110,6 +118,7 @@ tooltip_text = "Create a new note"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("2_52e18")
 theme_override_font_sizes/font_size = 18
+shortcut = SubResource("Shortcut_ax7xg")
 text = "📝 New Note"
 expand_icon = true
 
